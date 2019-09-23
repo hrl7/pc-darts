@@ -1,0 +1,3 @@
+## prerequisites
+
+* libusb
