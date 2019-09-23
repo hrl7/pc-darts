@@ -128,10 +128,14 @@ device.on('data', buf => {
       }
       if (s === 'SB') {
         console.log('Single Bull');
+        score += 50;
       } else if (s === 'DB') {
         console.log('Double Bull');
+        score += 50;
       } else if (s === 'reset') {
         score = 0;
+        round = 0;
+        console.log("new game");
       } else if (s === 'change') {
         round++;
         console.log(`round ${round}. score: ${score}`);
