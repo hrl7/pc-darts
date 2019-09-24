@@ -2,9 +2,7 @@ const convert = require('./src/converter');
 const HID = require('node-hid');
 const device = new HID.HID(7171, 1);
 let score = 0,
-  round = 0
- ; 
-
+  round = 0;
 device.on('data', buf => {
   let result = convert(buf);
 

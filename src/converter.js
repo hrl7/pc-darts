@@ -92,24 +92,23 @@ const BUF_TO_POINT = {
 };
 
 let waiting = false;
-const convert = (buf) => {
-let s;
+const convert = (buf, force = false) => {
+  let s;
   for (let i = 0; i < 12; i++) {
     if (buf[i]) {
-      if (waiting) return;
+      if (!force && waiting) return;
       waiting = true;
       setTimeout(() => {
         waiting = false;
       }, 500);
-      //console.log(i, buf[i]);
       s = BUF_TO_POINT[`${i} ${buf[i]}`];
       if (!s) {
         console.error('undefined.');
         console.log(i, buf[i]);
         break;
       }
+      return s;
     }
   }
-  return s;
-}
-module.exports = convert
+};
+module.exports = convert;

@@ -4,16 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "fix": "prettier --write index.js"
+    "test": "jest",
+    "fix": "prettier --write index.js \"./src/*.js\""
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "node-hid": "^0.7.9",
-    "usb": "^1.6.0"
+    "node-hid": "^0.7.9"
   },
   "devDependencies": {
+    "jest": "^24.9.0",
     "prettier": "^1.18.2"
   }
 }
