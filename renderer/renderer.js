@@ -1,49 +1,95 @@
-const { ipcRenderer } = require('electron');
-console.log('hello world');
-ipcRenderer.on("device", console.log);
-ipcRenderer.send("ready");
+import { ipcRenderer } from 'electron';
+import ReactDOM from 'react-dom';
+import React, { useReducer, useEffect } from 'react';
+import EventEmitter from 'eventemitter3';
 
-let score = 0, round = 0, flights = 0;
+ipcRenderer.on('device', console.log);
+ipcRenderer.send('ready');
 
-ipcRenderer.on("hit", (_, result) => {
+const dartsBoardEvent = new EventEmitter();
+ipcRenderer.on('hit', (_, result) => {
   console.log(result);
-  if (!result )return ;
+  if (!result) return;
 
   if (result === 'reset') {
-    score = 0;
-    round = 0;
-    flights = 0;
-    console.log('new game');
-    document.getElementById("score").textContent = score;
-    document.getElementById("round").textContent = round;
+    dartsBoardEvent.emit('reset');
     return;
   }
 
   if (result === 'change') {
-    round++;
-    flights = 0;
-    console.log(`round ${round}. score: ${score}`);
-    document.getElementById("score").textContent = score;
-    document.getElementById("round").textContent = round;
-    return;
-  }
-  if (flights >= 3) return;
-  flights++;
-
-  if (result === 'SB') {
-    console.log('Single Bull');
-    score += 50;
-    return;
-  }
-  if (result === 'DB') {
-    console.log('Double Bull');
-    score += 50;
+    dartsBoardEvent.emit('change');
     return;
   }
 
+  dartsBoardEvent.emit('hit', result);
+
+  /*
   const [target, times] = result.split('-').map(Number);
   console.log(`${target} x ${times}`);
-  score += target * times;
-  document.getElementById("score").textContent = score;
-  document.getElementById("round").textContent = round;
-})
+   */
+});
+
+const initialState = {
+  flights: 0,
+  round: 1,
+  score: 0,
+  history: [],
+  averagePerRound: 0,
+  averageHistory: [],
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'hit': {
+      const { flights, score } = state;
+      if (flights > 3) {
+        return state;
+      }
+      switch (action.result) {
+        case 'SB':
+        case 'DB':
+          return { ...state, flights: flights + 1, score: score + 50 };
+        default:
+          const [target, times] = action.result.split('-').map(Number);
+          console.log(`${target} x ${times}`);
+          return { ...state, flights: flights + 1, score: score + target * times };
+      }
+    }
+    case 'change': {
+      return { ...state, flights: 0, round: 0 };
+    }
+    case 'reset':
+      return initialState;
+    default:
+      console.error('got unknown action: ', action);
+      return state;
+  }
+};
+
+const App = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const handleChange = () => dispatch({ type: 'change' });
+  const handleReset = () => dispatch({ type: 'reset' });
+  const handleHit = result => dispatch({ type: 'hit', result });
+  useEffect(() => {
+    dartsBoardEvent.on('change', handleChange);
+    dartsBoardEvent.on('reset', handleReset);
+    dartsBoardEvent.on('hit', handleHit);
+    return () => {
+      dartsBoardEvent.off('change', handleChange);
+      dartsBoardEvent.off('reset', handleReset);
+      dartsBoardEvent.off('hit', handleHit);
+    };
+  });
+
+  return (
+    <div>
+      <h1>Score: {state.score}</h1>
+      <h1>Round: {state.round}</h1>
+    </div>
+  );
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+  ReactDOM.render(<App />, document.getElementById('root'));
+});
