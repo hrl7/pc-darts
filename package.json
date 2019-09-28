@@ -19,14 +19,14 @@
     "react-dom": "^16.10.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.6.2",
-    "@babel/preset-env": "^7.6.2",
-    "@babel/preset-react": "^7.0.0",
-    "babel-jest": "^24.9.0",
-    "electron": "^6.0.10",
-    "electron-rebuild": "^1.8.6",
-    "jest": "^24.9.0",
-    "parcel-bundler": "^1.12.3",
-    "prettier": "^1.18.2"
+    "@babel/core": "7.6.2",
+    "@babel/preset-env": "7.6.2",
+    "@babel/preset-react": "7.0.0",
+    "babel-jest": "24.9.0",
+    "electron": "6.0.10",
+    "electron-rebuild": "1.8.6",
+    "jest": "24.9.0",
+    "parcel-bundler": "1.12.3",
+    "prettier": "1.18.2"
   }
 }
