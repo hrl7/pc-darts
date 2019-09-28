@@ -56,7 +56,8 @@ const reducer = (state, action) => {
       }
     }
     case 'change': {
-      return { ...state, flights: 0, round: 0 };
+      const { round } = state;
+      return { ...state, flights: 0, round: round + 1};
     }
     case 'reset':
       return initialState;
