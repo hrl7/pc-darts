@@ -1,3 +1,11 @@
+import PropTypes from 'prop-types';
+
+export const MODE = {
+  GAME_SELECTION: 'GAME_SELECTION',
+  PLAYERS_SELECTION: 'PLAYERS_SELECTION',
+  PLAYING: 'PLAYING',
+  FINISH: 'FINISH',
+};
 export const initialState = {
   flights: 0,
   round: 1,
@@ -5,7 +13,21 @@ export const initialState = {
   history: [],
   averagePerRound: 0,
   averageHistory: [],
+  mode: MODE.GAME_SELECTION,
+  turnIndex: 0,
+  players: [],
+  game: null,
 };
+
+export const StatePropType = PropTypes.shape({
+  flights: PropTypes.number.isRequired,
+  round: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+  history: PropTypes.arrayOf(PropTypes.object).isRequired,
+  mode: PropTypes.oneOf(Object.keys(MODE)).isRequired,
+  turnIndex: PropTypes.number.isRequired,
+  players: PropTypes.arrayOf(PropTypes.object).isRequired,
+});
 
 export const reducer = (state, action) => {
   switch (action.type) {
@@ -26,10 +48,14 @@ export const reducer = (state, action) => {
     }
     case 'change': {
       const { round } = state;
-      return { ...state, flights: 0, round: round + 1};
+      return { ...state, flights: 0, round: round + 1 };
     }
     case 'reset':
       return initialState;
+    case 'GAME_SELECT':
+      return { ...state, mode: MODE.PLAYERS_SELECTION, game: action.name };
+    case 'PLAYERS_SELECT':
+      return { ...state, mode: MODE.PLAYERS_SELECTION, players: new Array(action.players) };
     default:
       console.error('got unknown action: ', action);
       return state;

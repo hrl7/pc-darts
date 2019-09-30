@@ -24,8 +24,6 @@ ipcRenderer.on('hit', (_, result) => {
   dartsBoardEvent.emit('hit', result);
 });
 
-
-
 window.addEventListener('DOMContentLoaded', () => {
-  ReactDOM.render(<App dartsBoardEvent={dartsBoardEvent}/>, document.getElementById('root'));
+  ReactDOM.render(<App dartsBoardEvent={dartsBoardEvent} />, document.getElementById('root'));
 });
