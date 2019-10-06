@@ -26,7 +26,7 @@
     "electron": "6.0.10",
     "electron-rebuild": "1.8.6",
     "jest": "24.9.0",
-    "parcel-bundler": "1.12.3",
+    "parcel-bundler": "1.12.4",
     "prettier": "1.18.2"
   }
 }
