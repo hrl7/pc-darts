@@ -103,8 +103,8 @@ const convert = (buf, force = false) => {
       }, 500);
       s = BUF_TO_POINT[`${i} ${buf[i]}`];
       if (!s) {
-        console.error('undefined.');
-        console.log(i, buf[i]);
+        //console.error('undefined.');
+        //console.log(i, buf[i]);
         break;
       }
       return s;
