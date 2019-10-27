@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest",
     "fix": "prettier --write \"*.js\" \"./src/*.js\" \"./renderer/*.js\"",
+    "lint": "npm run fix",
     "bundler": "parcel watch renderer/index.html  --public-url ./ --no-hmr --target=electron",
     "start": "electron ."
   },

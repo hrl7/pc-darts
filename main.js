@@ -8,7 +8,7 @@ let device;
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
-let mainWindow;
+let mainWindow, dartsboardWindow;
 
 function createWindow() {
   // Create the browser window.
@@ -83,4 +83,24 @@ const findDevice = () => {
 
 ipcMain.once('ready', () => {
   findDevice();
+});
+
+ipcMain.on('debug-hit', (_, data) => {
+  if (mainWindow) mainWindow.webContents.send('hit', data);
+});
+
+ipcMain.on('openDartsBoardWindow', () => {
+  console.log('open darts board');
+  if (dartsboardWindow != null) return;
+  dartsboardWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+  });
+  dartsboardWindow.loadFile('./debugger/dartsboardDebuggerWindow.html');
+  dartsboardWindow.on('closed', () => {
+    dartsboardWindow = null;
+  });
 });
