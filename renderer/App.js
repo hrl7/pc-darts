@@ -4,11 +4,13 @@ import { reducer, initialState, MODE } from './reducer';
 import { Game } from './pages/Game';
 import { GameSelection } from './pages/GameSelection';
 import { PlayersSelection } from './pages/PlayersSelection';
+import { Finish } from './pages/Finish';
 
 const PAGES = {
   Game: Game,
   GameSelection: GameSelection,
   PlayersSelection: PlayersSelection,
+  Finish: Finish,
 };
 
 export const App = ({ dartsBoardEvent }) => {
@@ -39,7 +41,7 @@ export const App = ({ dartsBoardEvent }) => {
       Page = PAGES.PlayersSelection;
       break;
     case MODE.FINISH:
-      Page = PAGES.Game;
+      Page = PAGES.Finish;
       break;
     default:
       console.error('unknown state: ', state.mode);

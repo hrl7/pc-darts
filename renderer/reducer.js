@@ -32,6 +32,7 @@ export const StatePropType = PropTypes.shape({
 export const reducer = (state, action) => {
   switch (action.type) {
     case 'hit': {
+      if (state.mode != MODE.PLAYING) return state;
       const { flights, score } = state;
       if (flights >= 3) {
         return state;
@@ -47,15 +48,22 @@ export const reducer = (state, action) => {
       }
     }
     case 'change': {
+      if (state.mode != MODE.PLAYING) return state;
+      if (state.round === 8) return { ...state, mode: MODE.FINISH };
       const { round } = state;
       return { ...state, flights: 0, round: round + 1 };
     }
     case 'reset':
+      if (state.mode != MODE.PLAYING) return state;
       return initialState;
+    case 'GO_TO_TOP':
+      return initialState;
+    case 'RETRY_GAME':
+      return { ...initialState, game: state.game, players: state.players, mode: MODE.PLAYING };
     case 'GAME_SELECT':
       return { ...state, mode: MODE.PLAYERS_SELECTION, game: action.name };
     case 'PLAYERS_SELECT':
-      return { ...state, mode: MODE.PLAYERS_SELECTION, players: new Array(action.players) };
+      return { ...state, mode: MODE.PLAYING, players: new Array(action.players) };
     default:
       console.error('got unknown action: ', action);
       return state;
