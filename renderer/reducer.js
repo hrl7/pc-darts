@@ -78,6 +78,8 @@ export const reducer = (state, action) => {
       return { ...state, flights: 0, round: round + 1, averagePerRound: score / round, roundHistory: [] };
     }
     case 'reset':
+      if (state.mode === MODE.FINISH)
+        return { ...initialState, game: state.game, players: state.players, mode: MODE.PLAYING };
       if (state.mode != MODE.PLAYING) return state;
       return initialState;
     case 'GO_TO_TOP':
