@@ -5,9 +5,9 @@
   "main": "main.js",
   "scripts": {
     "test": "jest",
-    "fix": "prettier --write \"*.js\" \"./src/*.js\" \"./renderer/*.js\"",
+    "fix": "prettier --write \\\"*.js\\\" \\\"./src/*.js\\\" \\\"client/*.js\\\"",
     "lint": "npm run fix",
-    "bundler": "parcel watch renderer/index.html  --public-url ./ --no-hmr",
+    "bundler": "parcel watch client/index.html  --public-url ./ --no-hmr",
     "start": "nodemon node server.js"
   },
   "author": "",

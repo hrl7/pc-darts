@@ -11,6 +11,7 @@ const close = () => {
     device.pause();
     device.close();
   }
+  http.close();
 };
 process.on('SIGTERM', close);
 process.on('SIGINT', close);
