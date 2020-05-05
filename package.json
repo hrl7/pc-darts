@@ -7,17 +7,19 @@
     "test": "jest",
     "fix": "prettier --write \"*.js\" \"./src/*.js\" \"./renderer/*.js\"",
     "lint": "npm run fix",
-    "bundler": "parcel watch renderer/index.html  --public-url ./ --no-hmr --target=electron",
-    "start": "electron ."
+    "bundler": "parcel watch renderer/index.html  --public-url ./ --no-hmr",
+    "start": "nodemon node server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "eventemitter3": "^4.0.0",
+    "express": "4.17.1",
     "node-hid": "^0.7.9",
     "prop-types": "^15.7.2",
     "react": "^16.10.0",
-    "react-dom": "^16.10.0"
+    "react-dom": "^16.10.0",
+    "socket.io": "2.3.0"
   },
   "devDependencies": {
     "@babel/core": "7.6.4",
@@ -27,6 +29,7 @@
     "electron": "6.0.12",
     "electron-rebuild": "1.8.6",
     "jest": "24.9.0",
+    "nodemon": "2.0.3",
     "parcel-bundler": "1.12.4",
     "prettier": "1.18.2"
   }

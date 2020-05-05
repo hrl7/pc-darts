@@ -1,14 +1,18 @@
-import { ipcRenderer } from 'electron';
 import ReactDOM from 'react-dom';
 import React, { useReducer, useEffect } from 'react';
 import EventEmitter from 'eventemitter3';
 import { App } from './App';
+import io from 'socket.io-client';
 
-ipcRenderer.on('device', console.log);
-ipcRenderer.send('ready');
+const socket = io();
+window.socket = socket;
+
+socket.on('device', console.log);
+socket.send('ready');
 
 const dartsBoardEvent = new EventEmitter();
-ipcRenderer.on('hit', (_, result) => {
+socket.on('hit', result => {
+  console.log('hit: ', result);
   if (!result) return;
 
   if (result === 'reset') {
@@ -27,5 +31,3 @@ ipcRenderer.on('hit', (_, result) => {
 window.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(<App dartsBoardEvent={dartsBoardEvent} />, document.getElementById('root'));
 });
-
-window.openDebugDartsBoard = () => ipcRenderer.send('openDartsBoardWindow');

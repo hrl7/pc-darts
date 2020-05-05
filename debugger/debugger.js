@@ -1,12 +1,12 @@
-const { ipcRenderer } = require('electron');
 const TIMES = {
   's': 1,
   'd': 2,
   't': 3,
 };
 window.addEventListener('DOMContentLoaded', () => {
+  const socket = io();
   ["reset", "change", "up", "down"].forEach(id => {
-    document.getElementById(id).onclick = () => ipcRenderer.send('debug-hit', id);
+    document.getElementById(id).onclick = () => socket.emit('debug-hit', id);
   })
   document.querySelectorAll('#dartboard #areas g').forEach((e) => {
     const children = e.children;
@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', () => {
           }
         }
         console.log(target);
-        ipcRenderer.send('debug-hit', target);
+        socket.emit('debug-hit', target);
       };
       elem.onmouseenter = function() {
         elem.style.opacity = '0.6';
