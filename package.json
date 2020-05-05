@@ -17,20 +17,18 @@
     "express": "4.17.1",
     "node-hid": "^0.7.9",
     "prop-types": "^15.7.2",
-    "react": "^16.10.0",
-    "react-dom": "^16.10.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
     "socket.io": "2.3.0"
   },
   "devDependencies": {
-    "@babel/core": "7.6.4",
-    "@babel/preset-env": "7.6.3",
-    "@babel/preset-react": "7.6.3",
-    "babel-jest": "24.9.0",
-    "electron": "6.0.12",
-    "electron-rebuild": "1.8.6",
-    "jest": "24.9.0",
+    "@babel/core": "7.9.6",
+    "@babel/preset-env": "7.9.6",
+    "@babel/preset-react": "7.9.4",
+    "babel-jest": "26.0.1",
+    "jest": "26.0.1",
     "nodemon": "2.0.3",
     "parcel-bundler": "1.12.4",
-    "prettier": "1.18.2"
+    "prettier": "2.0.5"
   }
 }
