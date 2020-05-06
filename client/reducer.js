@@ -49,33 +49,52 @@ const initPlayer = (_, index) => {
   };
 };
 
+const calculateResultForCountUp = (state, result, flights, score, roundHistory) => {
+  switch (result) {
+    case 'SB':
+    case 'DB':
+      return {
+        ...state,
+        flights: flights + 1,
+        score: score + 50,
+        roundHistory: roundHistory.concat(result),
+      };
+    default:
+      const [target, times] = result.split('-').map(Number);
+      //console.log(`${target} x ${times}`);
+      return {
+        ...state,
+        flights: flights + 1,
+        score: score + target * times,
+        roundHistory: roundHistory.concat(result),
+      };
+  }
+}
+
+const calculateResultByGame = (gameName, state, result) => {
+  const {flights, score, roundHistory} = state
+  switch(gameName) {
+    case GAME_MODE.COUNT_UP:
+      return calculateResultForCountUp(state, result, flights, score, roundHistory)
+
+    case GAME_MODE.EAGLES_EYE:
+      break;
+
+    default:
+      return state;
+  }
+}
+
 export const reducer = (state, action) => {
   switch (action.type) {
     case 'hit': {
       if (state.mode != MODE.PLAYING) return state;
-      const { flights, score, roundHistory } = state;
+      const { flights } = state;
       if (flights >= 3) {
         return state;
       }
-      switch (action.result) {
-        case 'SB':
-        case 'DB':
-          return {
-            ...state,
-            flights: flights + 1,
-            score: score + 50,
-            roundHistory: roundHistory.concat(action.result),
-          };
-        default:
-          const [target, times] = action.result.split('-').map(Number);
-          //console.log(`${target} x ${times}`);
-          return {
-            ...state,
-            flights: flights + 1,
-            score: score + target * times,
-            roundHistory: roundHistory.concat(action.result),
-          };
-      }
+      const gameName = state.game;
+      return calculateResultByGame(gameName, state, action.result);
     }
     case 'change': {
       if (state.mode != MODE.PLAYING) return state;
