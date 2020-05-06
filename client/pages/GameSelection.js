@@ -8,6 +8,7 @@ export const GameSelection = (props) => {
     <li><button onClick={handleClick("count-up")}>Count-up</button></li>
     <li><button onClick={handleClick( "01")}>01</button></li>
     <li><button onClick={handleClick( "cricket")}>Cricket</button></li>
+    <li><button onClick={handleClick( "eagles-eye")}>Eagles Eye</button></li>
   </div>)
 }
 

@@ -6,6 +6,12 @@ export const MODE = {
   PLAYING: 'PLAYING',
   FINISH: 'FINISH',
 };
+
+export const GAME_MODE = {
+  COUNT_UP: "count-up",
+  EAGLES_EYE: 'eagles-eye'
+}
+
 export const initialState = {
   flights: 0,
   round: 1,
