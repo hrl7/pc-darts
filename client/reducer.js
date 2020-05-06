@@ -24,6 +24,7 @@ export const initialState = {
   turnIndex: 0,
   players: [],
   game: null,
+  result: ''
 };
 
 export const StatePropType = PropTypes.shape({
@@ -46,6 +47,7 @@ const initPlayer = (_, index) => {
     history: [],
     averagePerRound: 0,
     averageHistory: [],
+    result: ''
   };
 };
 
@@ -58,6 +60,7 @@ const calculateResultForCountUp = (state, result, flights, score, roundHistory) 
         flights: flights + 1,
         score: score + 50,
         roundHistory: roundHistory.concat(result),
+        result
       };
     default:
       const [target, times] = result.split('-').map(Number);
@@ -67,6 +70,37 @@ const calculateResultForCountUp = (state, result, flights, score, roundHistory) 
         flights: flights + 1,
         score: score + target * times,
         roundHistory: roundHistory.concat(result),
+        result
+      };
+  }
+}
+
+const calculateResultForEaglesEye = (state, result, flights, score, roundHistory) => {
+  switch (result) {
+    case 'SB' :
+      return {
+        ...state,
+        flights: flights + 1,
+        score: score + 50,
+        roundHistory: roundHistory.concat(result),
+        result
+      }
+
+    case 'DB' :
+      return {
+        ...state,
+        flights: flights + 1,
+        score: score + 100,
+        roundHistory: roundHistory.concat(result),
+        result
+      }
+
+    default:
+      return {
+        ...state,
+        flights: flights + 1,
+        roundHistory: roundHistory.concat(result),
+        result
       };
   }
 }
@@ -78,7 +112,7 @@ const calculateResultByGame = (gameName, state, result) => {
       return calculateResultForCountUp(state, result, flights, score, roundHistory)
 
     case GAME_MODE.EAGLES_EYE:
-      break;
+      return calculateResultForEaglesEye(state, result, flights, score, roundHistory)
 
     default:
       return state;
